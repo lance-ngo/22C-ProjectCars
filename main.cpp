@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void populate3(){ //the 3 parameters should be each of the instances of the 3 adts
+void populate3(List carsL, Bst carsB, Hash carsH){ //the 3 parameters should be each of the instances of the 3 adts
 
 	ifstream carsIn("carInventory.csv");
 	if (carsIn.fail())
@@ -43,6 +43,10 @@ void populate3(){ //the 3 parameters should be each of the instances of the 3 ad
 		stock = stoi(buffer.substr(p7 + 1));
 
 		//how will we create a new Car here and have the node from all 3 ADT's point to it?
+		Car* C = new Car(make, model, msrp, hp, body, cap, trans, stock);
+		carsL.insert(C);
+		carsB.insert(C);
+		carsH.insert(C);
 
 	}
 
