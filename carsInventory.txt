@@ -1,0 +1,52 @@
+Porsche,718 Cayman,55300,300,coupe,4,manual,2
+Porsche,718 Cayman S,67700,350,coupe,4,manual,4
+Porsche,718 Boxster,57400,300,roadster,2,manual,3
+Porsche,718 Boxster S,69800,350,roadster,2,manual,1
+Porsche,911 Carrera,91100,370,coupe,4,manual,0
+Porsche,911 Carrera S,105100,420,coupe,4,manual,5
+Porsche,911 Turbo,161800,540,coupe,4,auto,4
+Porsche,911 Turbo S,190700,580,coupe,4,auto,2
+Porsche,911 GTS,120700,450,coupe,4,manual,1
+Porsche,Panamera,85000,330,sedan,4,auto,2
+Porsche,Panamera Turbo,150000,550,sedan,4,auto,3
+Porsche,Macan,47800,252,crossover,4,auto,2
+Porsche,Macan S,55400,340,crossover,4,auto,5
+Porsche,Cayenne,60600,300,SUV,5,auto,4
+Porsche,Cayenne GTS,98600,440,SUV,5,auto,2
+Porsche,Cayenne Turbo,118100,520,SUV,5,auto,1
+Mercedes,C350e,41500,275,sedan,4,auto,3
+Mercedes,E300,52150,273,sedan,4,auto,1
+Mercedes,S550,96600,449,sedan,4,auto,3
+Mercedes,S550e,96600,436,sedan,4,auto,1
+Mercedes,S600,170750,523,sedan,4,auto,5
+Mercedes,E400,62300,329,wagon,4,auto,4
+Mercedes,CLA 250,32700,208,coupe,4,auto,0
+Mercedes,C300,42650,241,coupe,4,auto,4
+Mercedes,E550,60650,402,coupe,4,auto,1
+Mercedes,CLS400,67550,329,coupe,4,auto,0
+Mercedes,CLS550,74850,402,coupe,4,auto,1
+Mercedes,GLE350,52000,302,SUV,5,auto,5
+Mercedes,GLS450,68700,362,SUV,7,auto,2
+Mercedes,GLS550,93850,449,SUV,7,auto,1
+Mercedes,G550,122400,416,SUV,5,auto,4
+Mercedes,SLC300,47950,241,roadster,2,auto,5
+Mercedes,SL450,86950,362,roadster,2,auto,4
+Mercedes,SL550,11080,449,roadster,2,auto,1
+Lexus,IS Turbo,37825,241,sedan,4,auto,2
+Lexus,IS300,40200,255,sedan,4,auto,4
+Lexus,IS350,41370,306,sedan,4,auto,1
+Lexus,ES350,38900,268,sedan,4,auto,2
+Lexus,GS Turbo,46310,241,sedan,4,auto,5
+Lexus,GS350,50695,311,sedan,4,auto,1
+Lexus,LS460,72520,386,sedan,4,auto,0
+Lexus,RX350,43120,295,SUV,5,auto,3
+Lexus,GX460,51680,301,SUV,7,auto,2
+Lexus,LX570,89880,383,SUV,7,auto,1
+Infinity,Q50,33950,208,sedan,4,auto,5
+Infinity,Q70,50100,330,sedan,4,auto,3
+Infinity,Q60,38950,208,coupe,4,auto,0
+Infinty,Q30,29950,208,crossover,4,auto,2
+Infinty,QX50,34650,325,crossover,4,auto,0
+Infinity,QX60,43100,295,crossover,4,auto,5
+Infinity,QX70,45850,325,crossover,4,auto,1
+Infinity,QX80,63850,400,SUV,7,auto,2
