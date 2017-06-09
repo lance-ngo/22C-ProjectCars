@@ -1,0 +1,5 @@
+print menu of function choices;
+prompt user for choice;
+
+do{
+cin >> int choice;
