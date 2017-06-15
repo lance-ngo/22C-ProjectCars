@@ -44,9 +44,7 @@ void populate3(List carsL, Bst carsB, Hash carsH){ //the 3 parameters should be 
 
 		//how will we create a new Car here and have the node from all 3 ADT's point to it?
 		Car* C = new Car(make, model, msrp, hp, body, cap, trans, stock);
-		carsL.insert(C);
-		carsB.insert(C);
-		carsH.insert(C);
+		DataManager.add(C);
 
 	}
 
