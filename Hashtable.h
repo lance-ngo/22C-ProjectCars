@@ -4,8 +4,8 @@
 // The only slighly significant work left to do is efficiency calculations i.e recording number of insertions, comparisons, etc.
 
 #include <iostream>
-#include <cstdlib>
 #include <string>
+#include <cmath>
 #include "Car.h"
 #include "List.h"
 
@@ -33,7 +33,7 @@ public:
 	unsigned generateKey(const std::string &str) const;
 	T* operator[](const std::string &str);
 	T* operator[](const Car &C);
-	void printTable(std::ostream &fout = std::cout) const;
+	void printTable(std::ostream &fout = std::cout);
 	bool isEmpty() const;
 	unsigned getArraySize() const;
 	unsigned getFilledCount() const;
@@ -41,6 +41,7 @@ public:
 	double getLoadFactor() const;
 	void setMaxLoadFactor(const double &maxLoad);
 	double getMaxLoadFactor() const;
+	double getExpectedCollisions();
 	~Hashtable();
 };
 
@@ -161,7 +162,7 @@ bool Hashtable<T>::remove(const std::string &str)
 }
 
 template <typename T>
-void Hashtable<T>::printTable(std::ostream &fout) const
+void Hashtable<T>::printTable(std::ostream &fout)
 {
 	fout << "Printing out contents of hash table" << endl;
 	for (unsigned i = 0; i < arraySize; i++)
@@ -213,6 +214,12 @@ template <typename T>
 double Hashtable<T>::getMaxLoadFactor() const
 {
 	return maxLoadFactor;
+}
+
+template <typename T>
+double Hashtable<T>::getExpectedCollisions()
+{
+	return dataCount - arraySize * (1 - pow(((arraySize - 1) / static_cast<double> (arraySize)), dataCount));
 }
 
 #endif
