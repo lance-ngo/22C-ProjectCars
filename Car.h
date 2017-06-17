@@ -1,3 +1,6 @@
+#ifndef CAR_H
+#define CAR_H
+
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -85,3 +88,5 @@ public:
 	}
 		
 };
+
+#endif
