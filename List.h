@@ -19,22 +19,21 @@ public:
 	void printCount(std::ostream &fout) const;
 	void emptyList();
 	T* find(const T &dat);
-	void findByHp(const unsigned& hp, std::ostream& fout = std::cout);
+	void findByHp(const int& hp, std::ostream& fout = std::cout);
 	T* findByModel(const std::string& str);
 	bool isEmpty() const;
-	//void insert(unsigned p, T &t);
 	void insert(T &dat);
 	void insertByHp(T &t);
 	bool remove(const T &dat);
 	bool removeByModel(const std::string &str);
-	std::ostream& print(std::ostream &fout = cout) const;
-	// friend ostream& operator<<(ostream& fout, const List<T>& L);
+	std::ostream& print(std::ostream &fout = cout);
+	//friend std::ostream& operator<<(std::ostream& fout, const List<T>& L);
 	~List();
 };
 
 // PARTIALLY INCOMPLETE
 template <typename T>
-List<T>::List() : H(0, nullptr, nullptr)
+List<T>::List() : H()
 {
 }
 
@@ -134,7 +133,7 @@ Post:
 Return:
 */
 template <typename T>
-std::ostream& List<T>::print(std::ostream& fout) const
+std::ostream& List<T>::print(std::ostream& fout)
 {
 	Node<T>* temp = H.getFrontPtr();
 	while (temp != nullptr)
@@ -146,7 +145,7 @@ std::ostream& List<T>::print(std::ostream& fout) const
 }
 
 //template <typename T>
-//ostream& operator<<(ostream& fout, const List<T>& L)
+//std::ostream& operator<<(std::ostream& fout, const List<T>& L)
 //{
 //	L.print(fout);
 //	return fout;
@@ -161,7 +160,7 @@ Return: true/false depending on if the operation is successful
 template <typename T>
 bool List<T>::isEmpty() const
 {
-	if (H.getNext() == nullptr)
+	if (H.getCount == 0)
 		return true;
 	else
 		return false;
@@ -201,8 +200,8 @@ bool List<T>::remove(const T &dat)
 	if (dat == temp1->getData())
 	{
 		H.setFrontPtr(temp1->getNext());
-		if (temp1->getNext() == nullptr)
-			H.setRearPtr(nullptr);
+		//if (temp1->getNext() == nullptr)
+			//H.setRearPtr(nullptr);
 		H.decrementCount();
 		delete temp1;
 		return true;
@@ -214,8 +213,8 @@ bool List<T>::remove(const T &dat)
 		{
 			H.decrementCount();
 			temp2->setNext(temp1->getNext());
-			if (temp1->getNext() == nullptr)
-				H.setRearPtr(temp2);
+			//if (temp1->getNext() == nullptr)
+				//H.setRearPtr(temp2);
 			delete temp1;
 			return true;
 		}
@@ -242,8 +241,8 @@ bool List<T>::removeByModel(const std::string &str)
 	if (str == temp1->getData().getModel())
 	{
 		H.setFrontPtr(temp1->getNext());
-		if (temp1->getNext() == nullptr)
-			H.setRearPtr(nullptr);
+		//if (temp1->getNext() == nullptr)
+			//H.setRearPtr(nullptr);
 		H.decrementCount();
 		delete temp1;
 		return true;
@@ -255,8 +254,8 @@ bool List<T>::removeByModel(const std::string &str)
 		{
 			H.decrementCount();
 			temp2->setNext(temp1->getNext());
-			if (temp1->getNext() == nullptr)
-				H.setRearPtr(temp2);
+			//if (temp1->getNext() == nullptr)
+				//H.setRearPtr(temp2);
 			delete temp1;
 			return true;
 		}
@@ -289,8 +288,8 @@ bool List<T>::removeByModel(const std::string &str)
 //	if (dat == temp1->getData())
 //	{
 //		H.setFrontPtr(temp1->getNext());
-//		if (temp1->getNext() == nullptr)
-//			H.setRearPtr(nullptr);
+//		//if (temp1->getNext() == nullptr)
+//			//H.setRearPtr(nullptr);
 //		H.decrementCount();
 //		delete temp1;
 //		return true;
@@ -302,8 +301,8 @@ bool List<T>::removeByModel(const std::string &str)
 //		{
 //			H.decrementCount();
 //			temp2->setNext(temp1->getNext());
-//			if (temp1->getNext() == nullptr)
-//				H.setRearPtr(temp2);
+//			//if (temp1->getNext() == nullptr)
+//				//H.setRearPtr(temp2);
 //			delete temp1;
 //			return true;
 //		}
@@ -332,7 +331,7 @@ void List<T>::insert(T& dat)
 	{
 		H.setFrontPtr(new Node<T>((dat), temp1));
 		H.incrementCount();
-		H.setRearPtr(H.getFrontPtr());
+		//H.setRearPtr(H.getFrontPtr());
 		insertCount++;
 		return;
 	}
@@ -355,7 +354,7 @@ void List<T>::insert(T& dat)
 		{
 			temp2->setNext(new Node<T>(dat, nullptr));
 			H.incrementCount();
-			H.setRearPtr(temp2->getNext());
+			//H.setRearPtr(temp2->getNext());
 			insertCount++;
 			return;
 		}
@@ -365,8 +364,8 @@ void List<T>::insert(T& dat)
 	temp2->setNext(new Node<T>((dat), temp1));
 	H.incrementCount();
 
-	if (temp1 == nullptr)
-		H.setRearPtr(temp2->getNext());
+	//if (temp1 == nullptr)
+		//H.setRearPtr(temp2->getNext());
 
 	insertCount++;
 }
@@ -388,7 +387,7 @@ void List<T>::insertByHp(T &t)
 	{
 		H.setFrontPtr(new Node<T>(t, temp1));
 		H.incrementCount();
-		H.setRearPtr(H.getFrontPtr());
+		//H.setRearPtr(H.getFrontPtr());
 		insertCount++;
 		return;
 	}
@@ -411,7 +410,7 @@ void List<T>::insertByHp(T &t)
 		{
 			temp2->setNext(new Node<T>(t, nullptr));
 			H.incrementCount();
-			H.setRearPtr(temp2->getNext());
+			//H.setRearPtr(temp2->getNext());
 			insertCount++;
 			return;
 		}
@@ -421,14 +420,14 @@ void List<T>::insertByHp(T &t)
 	temp2->setNext(new Node<T>(t, temp1));
 	H.incrementCount();
 
-	if (temp1 == nullptr)
-		H.setRearPtr(temp2->getNext());
+	//if (temp1 == nullptr)
+		//H.setRearPtr(temp2->getNext());
 
 	insertCount++;
 }
 
 template <typename T>
-void List<T>::findByHp(const unsigned& hp, std::ostream& fout)
+void List<T>::findByHp(const int& hp, std::ostream& fout)
 {
 	Node<T>* temp1 = H.getFrontPtr();
 	fout << "Printing cars more than " << hp << " horsepower" << endl;
