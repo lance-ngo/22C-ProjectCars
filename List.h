@@ -23,8 +23,8 @@ public:
 	T* findByModel(const std::string& str);
 	bool isEmpty() const;
 	//void insert(unsigned p, T &t);
-	void insert(T& dat);
-	void insertByHp(T* t);
+	void insert(T &dat);
+	void insertByHp(T &t);
 	bool remove(const T &dat);
 	bool removeByModel(const std::string &str);
 	std::ostream& print(std::ostream &fout = cout) const;
@@ -332,7 +332,6 @@ void List<T>::insert(T& dat)
 	{
 		H.setFrontPtr(new Node<T>((dat), temp1));
 		H.incrementCount();
-		//if (temp1 == nullptr)
 		H.setRearPtr(H.getFrontPtr());
 		insertCount++;
 		return;
@@ -380,53 +379,72 @@ Post:
 Return:
 */
 template<typename T>
-void List<T>::insertByHp(T* t)
+void List<T>::insertByHp(T &t)
 {
-	Node<T>* temp1 = H.getNext();
+	Node<T>* temp1 = H.getFrontPtr();
 	Node<T>* temp2 = nullptr;
 
 	if (temp1 == nullptr)
 	{
-		H.set_next(new Node<T>((*t), temp1));
+		H.setFrontPtr(new Node<T>(t, temp1));
 		H.incrementCount();
-		//if (temp1 == nullptr)
-		H.setRearptr(H.getNext());
+		H.setRearPtr(H.getFrontPtr());
 		insertCount++;
 		return;
 	}
 
-	if (t->getHp() <= temp1->getData().getHp())
+	if (t.getHp() <= temp1->getData().getHp())
 	{
 		comparisonCount++;
-		H.setNext(new Node<T>((*t), temp1));
+		H.setFrontPtr(new Node<T>(t, temp1));
 		H.incrementCount();
 		insertCount++;
 		return;
 	}
 
-	while (t->getHp() > temp1->getData().getHp())
+	while (t.getHp() > temp1->getData().getHp())
 	{
 		comparisonCount++;
 		temp2 = temp1;
 		temp1 = temp1->getNext();
 		if (temp1 == nullptr)
 		{
-			temp2->setNext(new Node<T>(*t, nullptr));
+			temp2->setNext(new Node<T>(t, nullptr));
 			H.incrementCount();
-			H.setRearptr(temp2->getNext());
+			H.setRearPtr(temp2->getNext());
 			insertCount++;
 			return;
 		}
 	}
 
 	comparisonCount++;
-	temp2->set_next(new Node<T>((*t), temp1));
+	temp2->setNext(new Node<T>(t, temp1));
 	H.incrementCount();
 
 	if (temp1 == nullptr)
-		H.setRearptr(temp2->getNext());
+		H.setRearPtr(temp2->getNext());
 
 	insertCount++;
+}
+
+template <typename T>
+void List<T>::findByHp(const unsigned& hp, std::ostream& fout)
+{
+	Node<T>* temp1 = H.getFrontPtr();
+	fout << "Printing cars more than " << hp << " horsepower" << endl;
+	while (temp1 != nullptr)
+	{
+		if (temp1->getData().getHp() >= hp)
+		{
+			while (temp1 != nullptr)
+			{
+				fout << temp1->getData() << endl;
+				temp1 = temp1->getNext();
+			}
+			return;
+		}
+		temp1 = temp1->getNext();
+	}
 }
 
 #endif
