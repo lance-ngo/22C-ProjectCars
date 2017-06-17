@@ -2,26 +2,29 @@
 #define NODE_H
 
 #include <iostream>
-#include <cstdlib>
-
-using namespace std;
 
 template <typename T>
 class Node
 {
-protected:
+private:
 	T* data;
 	Node* nextPtr;
 public:
+	Node();
 	Node(Node *ptr);
 	Node(T &dat, Node *ptr);
-	Node* getNext() const;
+	Node*& getNext();
 	T& getData() const;
-	void setNext(Node *ptr);
+	void setNext(Node* ptr);
 	void setData(T &t);
 	void removeData();
 	~Node();
 };
+
+template <typename T>
+Node<T>::Node() : data(nullptr), nextPtr(nullptr)
+{
+}
 
 /*
 This is the default constructor for a Node. Initializes data to nullptr
@@ -30,7 +33,7 @@ Pre : ptr – pointer to the next Node in the sequence
 Post : data - initializes data to nullptr, sets the next pointer to the parameter received
 */
 template <typename T>
-Node<T>::Node(Node* ptr) : data(nullptr), nextPtr(ptr)
+Node<T>::Node(Node<T>* ptr) : data(nullptr), nextPtr(ptr)
 {
 }
 
@@ -41,7 +44,7 @@ d - an object of any type
 Post : data, nextPtr
 */
 template <typename T>
-Node<T>::Node(T &dat, Node* ptr) : data(&dat), nextPtr(ptr)
+Node<T>::Node(T &dat, Node<T>* ptr) : data(&dat), nextPtr(ptr)
 {
 }
 
@@ -53,7 +56,7 @@ Post :
 Return: nextPtr
 */
 template <typename T>
-Node<T>* Node<T>::getNext() const
+Node<T>*& Node<T>::getNext()
 {
 	return nextPtr;
 }
