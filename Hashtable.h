@@ -24,14 +24,14 @@ private:
 public:
 	Hashtable();
 	void rehash();
-	T* find(const string &str) const;
+	T* find(const std::string &str) const;
 	T* find(const Car &C) const;
 	void insert(T &dat);
 	bool remove(const Car &C);
-	bool remove(const string &str);
+	bool remove(const std::string &str);
 	unsigned generateKey(const Car &C) const;
-	unsigned generateKey(const string &str) const;
-	T* operator[](const string &str);
+	unsigned generateKey(const std::string &str) const;
+	T* operator[](const std::string &str);
 	T* operator[](const Car &C);
 	void printTable(std::ostream &fout = std::cout) const;
 	bool isEmpty() const;
@@ -69,7 +69,7 @@ void Hashtable<T>::rehash()
 }
 
 template <typename T>
-unsigned Hashtable<T>::generateKey(const string &str) const
+unsigned Hashtable<T>::generateKey(const std::string &str) const
 {
 	unsigned key = 0;
 	for (size_t i = 0; i < str.size(); i++)
@@ -81,7 +81,7 @@ template <typename T>
 unsigned Hashtable<T>::generateKey(const Car &C) const
 {
 	unsigned key = 0;
-	string model = C.getModel();
+	std::string model = C.getModel();
 	// for (size_t i = 0; i < model.size(); i++)
 	for (size_t i = 0; i < model.size(); i++)
 		key += ((i + 29) * (model[i]));
@@ -108,7 +108,7 @@ Hashtable<T>::~Hashtable()
 }
 
 template <typename T>
-T* Hashtable<T>::find(const string &str) const
+T* Hashtable<T>::find(const std::string &str) const
 {
 	return hashArray[generateKey(str)].findByModel(str);
 }
@@ -120,7 +120,7 @@ T* Hashtable<T>::find(const Car &C) const
 }
 
 template <typename T>
-T* Hashtable<T>::operator[](const string &str)
+T* Hashtable<T>::operator[](const std::string &str)
 {
 	return find(str);
 }
@@ -146,7 +146,7 @@ bool Hashtable<T>::remove(const Car &C)
 }
 
 template <typename T>
-bool Hashtable<T>::remove(const string &str)
+bool Hashtable<T>::remove(const std::string &str)
 {
 	unsigned key = generateKey(dat);
 	if (hashArray[key].removeByModel(str))
