@@ -13,20 +13,32 @@ template <typename T>
 class Headnode
 {
 protected:
-	Node<T>* rearPtr;
+	// Node<T>* rearPtr;
 	Node<T>* frontPtr;
 	unsigned count;
 public:
-	Headnode(unsigned c, Node<T>* fPtr, Node<T>* rPtr);
+	Headnode();
+	Headnode(Node<T>* fPtr);
+	Headnode(unsigned c, Node<T>* fPtr); //, Node<T>* rPtr);
 	unsigned getCount() const;
 	void incrementCount();
 	void decrementCount();
-	Node<T>* getRearPtr();
-	Node<T>* getFrontPtr() const;
-	void setRearPtr(Node<T>* p);
+	//Node<T>* getRearPtr();
+	Node<T>*& getFrontPtr();
+	//void setRearPtr(Node<T>* p);
 	void setFrontPtr(Node<T>* p);
 	void resetCount();
 };
+
+template <typename T>
+Headnode<T>::Headnode() : count(0), frontPtr(nullptr) //, rearPtr(nullptr)
+{
+}
+
+template <typename T>
+Headnode<T>::Headnode(Node<T>* fPtr) : count(1), frontPtr(fPtr) //, rearPtr(fPtr)
+{
+}
 
 /*
 A constructor to initialize data members of Headnode
@@ -37,21 +49,21 @@ Post :
 Return:
 */
 template <typename T>
-Headnode<T>::Headnode(unsigned c, Node<T>* fPtr, Node<T>* rPtr) : count(c), frontPtr(fPtr), rearPtr(rPtr)
+Headnode<T>::Headnode(unsigned c, Node<T>* fPtr) : count(c), frontPtr(fPtr)//, rearPtr(rPtr)
 {
 }
 
-/*
-Return the address of the last Node in data structure
-Pre :
-Post :
-Return: nextptr - address of the last Node in data structure
-*/
-template <typename T>
-Node<T>* Headnode<T>::getRearPtr()
-{
-	return rearPtr;
-}
+///*
+//Return the address of the last Node in data structure
+//Pre :
+//Post :
+//Return: nextptr - address of the last Node in data structure
+//*/
+//template <typename T>
+//Node<T>* Headnode<T>::getRearPtr()
+//{
+//	return rearPtr;
+//}
 
 /*
 Return the address of the first Node in data structure
@@ -60,7 +72,7 @@ Post :
 Return: frontPtr - address of the first Node in data structure
 */
 template <typename T>
-Node<T>* Headnode<T>::getFrontPtr() const
+Node<T>*& Headnode<T>::getFrontPtr()
 {
 	return frontPtr;
 }
@@ -101,17 +113,17 @@ void Headnode<T>::decrementCount()
 	count--;
 }
 
-/*
-Set the address of the last Node in data structure to the address passed
-Pre: p - input address
-Post: nextptr
-Return:
-*/
-template <typename T>
-void Headnode<T>::setRearPtr(Node<T>* p)
-{
-	rearPtr = p;
-}
+///*
+//Set the address of the last Node in data structure to the address passed
+//Pre: p - input address
+//Post: nextptr
+//Return:
+//*/
+//template <typename T>
+//void Headnode<T>::setRearPtr(Node<T>* p)
+//{
+//	rearPtr = p;
+//}
 
 /*
 Set the address of the first Node in data structure to the address passed
