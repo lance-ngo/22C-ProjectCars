@@ -7,7 +7,6 @@
 #include <cstdlib>
 #include <string>
 #include "Car.h"
-#include "Node.h"
 #include "List.h"
 
 template <typename T>
