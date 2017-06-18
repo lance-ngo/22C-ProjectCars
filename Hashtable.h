@@ -20,17 +20,25 @@ private:
 	unsigned dataCount;
 	unsigned primePos;
 	double maxLoadFactor;
-	unsigned operationCount;
+
+	// EFFICIENCY TRACKING VARIABLES. ONLY FOR DEMONSTRATION PURPOSES (NOT REQUIRED IN A FUNCTIONAL HASH TABLE)
+	int insertRequests;
+	int insertOperations;
+	int findRequests;
+	int findOperations;
+	int removeRequests;
+	int removeOperations;
 public:
 	Hashtable();
+	Hashtable(unsigned prime);
 	void rehash();
-	T* find(const std::string &str) const;
-	T* find(const Car &C) const;
+	T* find(const std::string &str);
+	T* find(const Car &C);
 	void insert(T &dat);
 	bool remove(const Car &C);
 	bool remove(const std::string &str);
-	unsigned generateKey(const Car &C) const;
-	unsigned generateKey(const std::string &str) const;
+	unsigned generateKey(const Car &C, int &operations) const;
+	unsigned generateKey(const std::string &str, int &operations) const;
 	T* operator[](const std::string &str);
 	T* operator[](const Car &C);
 	void printTable(std::ostream &fout = std::cout);
@@ -41,64 +49,100 @@ public:
 	double getLoadFactor() const;
 	void setMaxLoadFactor(const double &maxLoad);
 	double getMaxLoadFactor() const;
-	double getExpectedCollisions();
 	~Hashtable();
+
+	// EFFICIENCY AND EXTRA CALCULATION FUNCTIONS
+
+	int getCollisions() const;
+	double getExpectedCollisions() const;
+	double getNonZeroAverageSize() const;
+	double getAverageSize() const;
+	unsigned getLongestListSize() const;
+	void resetEfficiencyCounts();
+	std::ostream& printEfficiencyData(std::ostream &fout = cout);
 };
 
 template <typename T>
-const unsigned Hashtable<T>::primeNumbers[] = { 89, 131, 199, 307, 449 };
+const unsigned Hashtable<T>::primeNumbers[] = { 89, 131, 199, 307, 449, 673, 1009 };
 
-
-// PARTIALLY INCOMPLETE
 template <typename T>
-Hashtable<T>::Hashtable() : primePos(0), maxLoadFactor(0.80), operationCount(0), dataCount(0), filledCount(0)
+Hashtable<T>::Hashtable() : primePos(0), maxLoadFactor(0.80), dataCount(0), filledCount(0)
 {
 	hashArray = new List<T>[primeNumbers[primePos]];
 	arraySize = primeNumbers[primePos];
+	resetEfficiencyCounts();
 }
 
-// INCOMPLETE
+template <typename T>
+Hashtable<T>::Hashtable(unsigned prime) : primePos(prime), maxLoadFactor(0.80), dataCount(0), filledCount(0)
+{
+	hashArray = new List<T>[primeNumbers[primePos]];
+	arraySize = primeNumbers[primePos];
+	resetEfficiencyCounts();
+}
+
 template <typename T>
 void Hashtable<T>::rehash()
 {
 	primePos++;
-	List<T>* newArray = new List<T>[primeNumbers[primePos]];
-	arraySize = primeNumbers[primePos];
+	Hashtable<T> newHash(primePos);
+
+	for (unsigned i = 0; i < arraySize; i++)
+	{
+		Node<T>* temp = hashArray[i].getHeadnode().getFrontPtr();
+		while (temp != nullptr)
+		{
+			newHash.insert(temp->getData());
+			temp = temp->getNext();
+		}
+	}
 
 	delete[] hashArray;
-	hashArray = newArray;
+	*this = newHash;
+	newHash.hashArray = nullptr;
 }
 
 template <typename T>
-unsigned Hashtable<T>::generateKey(const std::string &str) const
+unsigned Hashtable<T>::generateKey(const std::string &str, int &operations) const
 {
 	unsigned key = 0;
 	for (size_t i = 0; i < str.size(); i++)
+	{
 		key += ((i + 29) * (str[i]));
+		//operations++;
+	}
+	operations += 2;
 	return key % arraySize;
 }
 
 template <typename T>
-unsigned Hashtable<T>::generateKey(const Car &C) const
+unsigned Hashtable<T>::generateKey(const Car &C, int &operations) const
 {
 	unsigned key = 0;
 	std::string model = C.getModel();
-	// for (size_t i = 0; i < model.size(); i++)
 	for (size_t i = 0; i < model.size(); i++)
+	{
 		key += ((i + 29) * (model[i]));
+		// operations++;
+	}
+	operations += 2;
 	return key % arraySize;
 }
 
 template <typename T>
 void Hashtable<T>::insert(T &dat)
 {
-	unsigned key = generateKey(dat);
+	insertRequests++;
+	unsigned key = generateKey(dat, insertOperations);
+	/// insertOperations -= hashArray[key].getOperations();
 	hashArray[key].insert(dat);
+	/// insertOperations += hashArray[key].getOperations();
 	dataCount++;
 	if (hashArray[key].getCount() == 1)
 		filledCount++;
 	if (getLoadFactor() > maxLoadFactor)
 		rehash();
+	insertOperations++;
 }
 
 template <typename T>
@@ -109,15 +153,25 @@ Hashtable<T>::~Hashtable()
 }
 
 template <typename T>
-T* Hashtable<T>::find(const std::string &str) const
+T* Hashtable<T>::find(const std::string &str)
 {
-	return hashArray[generateKey(str)].findByModel(str);
+	findRequests++;
+	unsigned key = generateKey(str, findOperations);
+	// findOperations -= hashArray[key].getOperations();
+	T* temp = hashArray[key].findByModel(str);
+	// findOperations += hashArray[key].getOperations();
+	return temp;
 }
 
 template <typename T>
-T* Hashtable<T>::find(const Car &C) const
+T* Hashtable<T>::find(const Car &C)
 {
-	return hashArray[generateKey(C)].find(C);
+	findRequests++;
+	unsigned key = generateKey(C, findOperations);
+	// findOperations -= hashArray[key].getOperations();
+	T* temp = hashArray[key].find(C);
+	// findOperations += hashArray[key].getOperations();
+	return temp;
 }
 
 template <typename T>
@@ -135,36 +189,44 @@ T* Hashtable<T>::operator[](const Car &C)
 template <typename T>
 bool Hashtable<T>::remove(const Car &C)
 {
-	unsigned key = generateKey(C);
+	removeRequests++;
+	unsigned key = generateKey(C, removeOperations);
+	// removeOperations -= hashArray[key].getOperations();
 	if (hashArray[key].remove(C))
 	{
 		dataCount--;
 		if (hashArray[key].getCount() == 0)
 			filledCount--;
+		// removeOperations += hashArray[key].getOperations();
+		removeOperations++;
 		return true;
 	}
+	// removeOperations += hashArray[key].getOperations();
 	return false;
 }
 
 template <typename T>
 bool Hashtable<T>::remove(const std::string &str)
 {
-	unsigned key = generateKey(dat);
+	removeRequests++;
+	unsigned key = generateKey(str, removeOperations);
+	// removeOperations -= hashArray[key].getOperations();
 	if (hashArray[key].removeByModel(str))
 	{
 		dataCount--;
 		if (hashArray[key].getCount() == 0)
 			filledCount--;
+		// removeOperations += hashArray[key].getOperations();
+		removeOperations++;
 		return true;
 	}
-	else
-		return false;
+	// removeOperations += hashArray[key].getOperations();
+	return false;
 }
 
 template <typename T>
 void Hashtable<T>::printTable(std::ostream &fout)
 {
-	fout << "Printing out contents of hash table" << endl;
 	for (unsigned i = 0; i < arraySize; i++)
 	{
 		hashArray[i].print(fout);
@@ -216,10 +278,82 @@ double Hashtable<T>::getMaxLoadFactor() const
 	return maxLoadFactor;
 }
 
+
+// EFFICIENCY AND EXTRA CALCULATION FUNCTIONS
+
 template <typename T>
-double Hashtable<T>::getExpectedCollisions()
+double Hashtable<T>::getExpectedCollisions() const
 {
 	return dataCount - arraySize * (1 - pow(((arraySize - 1) / static_cast<double> (arraySize)), dataCount));
+}
+
+template <typename T>
+double Hashtable<T>::getNonZeroAverageSize() const
+{
+	unsigned nodeCt = 0, listCt = 0, currentCount = 0;
+	for (unsigned i = 0; i < arraySize; i++)
+	{
+		currentCount = hashArray[i].getCount();
+		if (currentCount > 0)
+		{
+			nodeCt += currentCount;
+			listCt++;
+		}
+	}
+	return static_cast <double> (nodeCt) / listCt;
+}
+
+template <typename T>
+double Hashtable<T>::getAverageSize() const
+{
+	unsigned nodeCt = 0, listCt = 0;
+	for (unsigned i = 0; i < arraySize; i++)
+	{
+		nodeCt += hashArray[i].getCount();
+		listCt++;
+	}
+	return static_cast <double> (nodeCt) / listCt;
+}
+
+template <typename T>
+unsigned Hashtable<T>::getLongestListSize() const
+{
+	unsigned maxListSize = 0, currentCount = 0;
+	for (unsigned i = 0; i < arraySize; i++)
+	{
+		currentCount = hashArray[i].getCount();
+		if (currentCount > maxListSize)
+			maxListSize = currentCount;
+	}
+	return maxListSize;
+}
+
+template <typename T>
+int Hashtable<T>::getCollisions() const
+{
+	return dataCount - filledCount;
+}
+
+template <typename T>
+void Hashtable<T>::resetEfficiencyCounts()
+{
+	insertRequests = 0;
+	insertOperations = 0;
+	findRequests = 0;
+	findOperations = 0;
+	removeRequests = 0;
+	removeOperations = 0;
+}
+
+template <typename T>
+std::ostream& Hashtable<T>::printEfficiencyData(std::ostream &fout)
+{
+	fout << "Printing Hash Table efficiency data" << endl;
+	fout << "With " << dataCount << " items in the hash table, it took:" << endl << endl;
+	fout << insertOperations << " operations for " << insertRequests << " insert calls" << endl;
+	fout << removeOperations << " operations for " << removeRequests << " remove calls" << endl;
+	fout << findOperations << " operations for " << findRequests << " find calls" << endl;
+	return fout;
 }
 
 #endif
