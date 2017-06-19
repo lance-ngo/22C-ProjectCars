@@ -10,6 +10,8 @@
 
 using namespace std;
 
+void printHeader(ostream& fout = cout);
+
 void populate3(){ //the 3 parameters should be each of the instances of the 3 adts
 
 	ifstream carsIn("carInventory.csv");
@@ -63,4 +65,13 @@ int main(){
 	
 	cin.get();
 	cin.get();
+}
+
+void printHeader(ostream& fout){
+	fout << setw(10) << left << "Make" << setw(16) << left << "Model" << setw(6) << right << "MSRP"
+		<< setw(5) << right << "HP" << "  " << setw(11) << left << "Body" << setw(6) << "Seats"
+		<< setw(8) << "Trans" << setw(5) << "Stock" << endl;
+	fout <<  "---------" << " " << "---------------" << " " << "------"
+		<< " " << "----" << "  " <<  "----------" << " " << "-----"
+		<< " " << "-------" << " " << "----" << endl;
 }
