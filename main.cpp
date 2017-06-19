@@ -53,6 +53,10 @@ void populate3(){ //the 3 parameters should be each of the instances of the 3 ad
 
 }
 
+bool AddRecord(){
+	
+}
+
 int main(){
 
 	//List carList, Hash carHash, Bst carBst instantiate
@@ -60,11 +64,30 @@ int main(){
 
 	//populate3(carList, carHash, carBst, carMgr)
 	
+	int choice;
 	
-
+	cout << "Select from followng menu:" << endl;
+	cout << "1. Add new car record" << endl;
+	cout << "2. Delete car record by model" << endl;
+	cout << "3. Find and print car by model" << endl;
+	cout << "4. Print cars in hash table sequence" << endl;
+	cout << "5. Print cars in hash key sequence" << endl;
+	cout << "6. Print BST indented tree" << endl;
+	cout << "7. Display efficiency for 3 ADTs" << endl;
+	cout << "8. Display cars within range of min and max price" << endl;
+	cout << "9. Display cars with minimum horsepower" << endl;
+	cout << "10. Display cars by body" << endl;
+	cout << "11. Compare two cars by price" << endl;
+	cout << "12. Add/Subtract from car inventory by model" << endl;
+	cout << "13. Exit" << endl;
 	
-	cin.get();
-	cin.get();
+	do
+	{
+	cin >> choice;
+	switch(choice)
+		case 1:
+		{
+	}while (choice != 0)
 }
 
 void printHeader(ostream& fout){
