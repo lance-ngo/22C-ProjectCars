@@ -129,7 +129,14 @@ int main(){
 			//call void:carsByPower(), carsByPower() will promp user for min horsepower, print cars higher than that
 			break;
 		}
-		case 10
+		case 10:
+		{
+			//call void:comparePrice(), comparePrice() will propt user for 2 models, then subtract second car from first car
+			break;
+		}
+		case 11:
+		{
+			//call void:changeInventory(), 
 	}while (choice != 0)
 }
 
