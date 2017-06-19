@@ -41,42 +41,42 @@ protected:
 		
 		delete x;
 	}
-	void print_tree(TreeNode* x, int depth,int d)
+	void print_tree(TreeNode* x, int depth,int d, std::ostream &bstout)
 	{
 		for(int i=1;i<depth;i++)
 		{
-			std::cout <<"|"<< std::string(indent, ' ');
+			bstout <<"|"<< std::string(indent, ' ');
 		}
 		
 		if(d!=-1)
-		std::cout <<"|";
+		bstout <<"|";
 		if(d==0)
-			std::cout<<"L"<< std::string(indent-1, ' ');
+			bstout<<"L"<< std::string(indent-1, ' ');
 		else if(d==1)
-			std::cout<<"R"<< std::string(indent-1, ' ');
+			bstout<<"R"<< std::string(indent-1, ' ');
 
 		if(x==nullptr)
 		{
-			std::cout<<"null"<< std::endl;
+			bstout<<"null"<< std::endl;
 			return;
 		}
-		std::cout<<"("<<x->GetData().getModel()<<", "<< x->GetData().getMsrp()/1000 <<"k)"<< std::endl;
-		print_tree(x->GetLeft(),depth+1,0);
-		print_tree(x->GetRight(),depth+1,1);
+		bstout<<"("<<x->GetData().getModel()<<", "<< x->GetData().getMsrp()*1.0/1000 <<"k)"<< std::endl;
+		print_tree(x->GetLeft(),depth+1,0,bstout);
+		print_tree(x->GetRight(),depth+1,1,bstout);
 	}
-	void print_range_tree(TreeNode *x,int l, int r)
+	void print_range_tree(TreeNode *x,int l, int r, std::ostream &bstout)
 	{
 		if(x->GetData().getMsrp()>=l && x->GetData().getMsrp()<=r)
-			std::cout<<((x->GetData()))<<std::endl;
+			bstout<<((x->GetData()))<<std::endl;
 		if(x->GetLeft() != nullptr)
 		{
 			if(x->GetData().getMsrp()>=l)
-				print_range_tree(x->GetLeft(),l,r);
+				print_range_tree(x->GetLeft(),l,r,bstout);
 		}
 		if(x->GetRight() != nullptr)
 		{
 			if(x->GetData().getMsrp()<=r)
-				print_range_tree(x->GetRight(),l,r);
+				print_range_tree(x->GetRight(),l,r,bstout);
 		}
 	}
 public:
@@ -188,13 +188,13 @@ public:
 		}
 		delete t;
 	}
-	void Print_Range(int l, int r)
+	void Print_Range(int l, int r , std::ostream &x = std::cout)
 	{
-		print_range_tree(root,l,r);
+		print_range_tree(root,l,r,x);
 	}
-	void Print()
+	void Print(std::ostream &x = std::cout)
 	{
-		print_tree(root,0,-1);
+		print_tree(root,0,-1,x);
 	}
 	void GetPerformance()
 	{

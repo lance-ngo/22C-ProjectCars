@@ -23,15 +23,16 @@ public:
 		bst->Insert(x);
 		lst->insert(*x);
 	}
-	void Remove(int key, std::string value)
+	void Remove(std::string value)
 	{
-		Car* tar = Find(key, value);
-		//HashMap, BST, LinkedList.Remove(tar)
+		Car* tar = Find(value);
+		bst.Remove(tar);
+		hshmap.remove(*tar);
+		lst.remove(*tar);
 	}
-	template<typename T>
-	Car* Find(int key, T value)
+	Car* Find(std::string value)
 	{
-		//Search in different ADT for different keys
+		return hshmap.find(value);
 	}
 	void SetBST(BST* t)
 	{

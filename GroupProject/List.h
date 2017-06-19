@@ -26,6 +26,7 @@ public:
 	void insertByHp(T &t);
 	bool remove(const T &dat);
 	bool removeByModel(const std::string &str);
+	bool saveToFile(std::string x);
 	std::ostream& print(std::ostream &fout = std::cout);
 	//friend std::ostream& operator<<(std::ostream& fout, const List<T>& L);
 	~List();
@@ -142,6 +143,21 @@ std::ostream& List<T>::print(std::ostream& fout)
 		temp = temp->getNext();
 	}
 	return fout;
+}
+
+template <typename T>
+bool List<T>::saveToFile(std::string x)
+{
+	std::ofstream fout(x);
+	if(!fout)
+		return 0;
+	Node<T>* temp = H.getFrontPtr();
+	while (temp != nullptr)
+	{
+		fout << temp->getData().toCsv() << std::endl;
+		temp = temp->getNext();
+	}
+	return 1;
 }
 
 //template <typename T>
@@ -349,7 +365,6 @@ void List<T>::insertByHp(T &t)
 		{
 			temp2->setNext(new Node<T>(t, nullptr));
 			H.incrementCount();
-			//H.setRearPtr(temp2->getNext());
 			insertCount++;
 			return;
 		}
@@ -358,9 +373,6 @@ void List<T>::insertByHp(T &t)
 	comparisonCount++;
 	temp2->setNext(new Node<T>(t, temp1));
 	H.incrementCount();
-
-	//if (temp1 == nullptr)
-		//H.setRearPtr(temp2->getNext());
 
 	insertCount++;
 }

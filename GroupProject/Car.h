@@ -101,6 +101,13 @@ public:
 		return out;
 	}
 
+	std::string toCsv()
+	{
+		std::string t="";
+		t=make+","+ model+","+std::to_string(msrp)+","+std::to_string(hp)+","+std::to_string(stock)+","+body+","+std::to_string(seats)+","+trans;
+		return t;
+	}
+
 };
 
 #endif
