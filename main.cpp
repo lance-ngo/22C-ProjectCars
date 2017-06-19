@@ -131,14 +131,19 @@ int main(){
 		}
 		case 10:
 		{
-			//call void:comparePrice(), comparePrice() will propt user for 2 models, then subtract second car from first car
+			//call void:comparePrice(), comparePrice() will propt user for 2 models, then user /operator to show price differ
 			break;
 		}
-		case 11:
+		case 0:
 		{
-			//call void:changeInventory(), 
-	}while (choice != 0)
+			//call void:save2File(), save2File() will save current car records to file
+			break;
+	}while (choice != 0);
+	
+	cout << "Thank you for using CarsRecord Program." << endl;	
 }
+	
+	
 
 void printHeader(ostream& fout){
 	fout << setw(10) << left << "Make" << setw(16) << left << "Model" << setw(6) << right << "MSRP"
