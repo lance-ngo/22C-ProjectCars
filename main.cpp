@@ -76,10 +76,9 @@ int main(){
 	cout << "7. Display efficiency for 3 ADTs" << endl;
 	cout << "8. Display cars within range of min and max price" << endl;
 	cout << "9. Display cars with minimum horsepower" << endl;
-	cout << "10. Display cars by body" << endl;
-	cout << "11. Compare two cars by price" << endl;
-	cout << "12. Add/Subtract from car inventory by model" << endl;
-	cout << "13. Exit" << endl;
+	cout << "10. Compare two cars by price" << endl;
+	cout << "11. Add/Subtract from car inventory by model" << endl;
+	cout << "12. Exit" << endl;
 	
 	do
 	{
@@ -87,6 +86,50 @@ int main(){
 	switch(choice)
 		case 1:
 		{
+			//call bool:addRecord(), addRecord will prompt user for data fieds and return true if added
+			break;
+		}
+		case 2:
+		{
+			//call bool:deleteRecord(), deleteRecord will prompt user for model and return true if deleted
+			break;
+		}
+		case 3:
+		{
+			//call void:find2print(), find2print() will prompt user for model, find and print car
+			break;
+		}
+		case 4:
+		{
+			//call void:printHashTable(), printHashTable() will loop through HT by index and print car
+			break;
+		}
+		case 5:
+		{
+			//call void:printHashKey(), printHashKey() will loop through HT by key and print car
+			break;
+		}
+		case 6:
+		{
+			//call void:printBSTree(), printBSTree() will print indented tree
+			break;
+		}
+		case 7:
+		{
+			//call void:printEfficiency(), printEfficiency() will print efficiencies of all 3
+			break;
+		}
+		case 8:
+		{
+			//call void:carsByPrice(), carsByPrice() will prompt user for min and max price, print cars in that range
+			break;
+		}
+		case 9:
+		{
+			//call void:carsByPower(), carsByPower() will promp user for min horsepower, print cars higher than that
+			break;
+		}
+		case 10
 	}while (choice != 0)
 }
 
