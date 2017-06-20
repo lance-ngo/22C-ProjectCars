@@ -68,6 +68,27 @@ public:
 		return trans;
 	}
 
+	bool operator<(const Car& x) const{
+		if (model < x.model)
+			return true;
+		else
+			return false;
+	}
+
+	bool operator<=(const Car& x) const{
+		if (model <= x.model)
+			return true;
+		else
+			return false;
+	}
+
+	bool operator==(const Car& x) const{
+		if (model == x.model)
+			return true;
+		else
+			return false;
+	}
+	
 	int operator/(const Car x) const {	//compare two cars, neg value means second car is more expensive
 		return msrp - x.getMsrp();
 	}
