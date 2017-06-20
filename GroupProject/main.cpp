@@ -5,6 +5,16 @@
 #include "List.h"
 using namespace std;
 
+bool checkIsNull(Car* t)
+{
+	if (t == nullptr)
+	{
+		cout << "Cannot found given model name in database, please check your spelling and type in again." << endl;
+		return false;
+	}
+	return true;
+}
+
 void prompt()
 {
 	cout << "Select from followng menu: (Enter the index number)" << endl;
@@ -12,7 +22,7 @@ void prompt()
 	cout << "2. Delete car record by model" << endl;
 	cout << "3. Find and print car by model" << endl;
 	cout << "4. Print cars by hash table" << endl;
-	//cout << "5. Print cars in hash key sequence" << endl;
+	cout << "5. Print cars sorted by HP" << endl;
 	cout << "6. Print BST indented tree" << endl;//done
 	cout << "7. Display efficiency for 3 ADTs" << endl;
 	cout << "8. Display cars within range of min and max price" << endl;//done
@@ -21,17 +31,22 @@ void prompt()
 	cout << "0. Exit" << endl;
 }
 
-void updateInv(){
+void updateInv(Hashtable<Car> &hst){
 	string model;
 	int change;
 	Car* temp;
 	cout << "Please enter car model to update inventory (lower case)" << endl;
+	cin.ignore();
 	getline(cin, model);
-	temp = 
-	cout << "Please enter int for change in inventory (negative int to subtract)" << endl;
-	cin >> ch
-	
-	
+	temp = hst.find(model);
+	if (checkIsNull(temp))
+	{
+		cout << "Please enter int for change in inventory (negative int to subtract)" << endl;
+		cin >> change;
+
+		temp->changeInv(change);
+		cout << (*temp) << endl;
+	}
 }
 
 int main()
@@ -44,18 +59,12 @@ int main()
 	manager.SetList(&list);
 	manager.SetHashTable(&hst);
 	manager.ReadFile("carinv.txt");
-	/*cout<<"-------"<<endl;
-	hst.printTable();
-	cout<<"-------"<<endl;
-	list.print();
-	cout << "-------" << endl;
-	bstree.Print();*/
 
 	int choice;
+	bool exitThisTime = false;
 	prompt();
 	while(cin >> choice)
 	{
-	
 	switch(choice)
 	{
 		case 1:
@@ -69,19 +78,30 @@ int main()
 			cin>>make>> model>> msrp>> hp>> stock>> body>> cap>> trans;
 			Car* tempCar = new Car(make, model, msrp, hp, stock, body, cap, trans);
 			manager.Add(tempCar);
-			//call bool:addRecord(), addRecord will prompt user for data fieds and return true if added
 			break;
 		}
 		case 2:
 		{
 			string t;
-			cin>>t;
-			
+			cin.ignore();
+			getline(cin,t);
+			Car* tar = hst.find(t);
+			if (checkIsNull(tar))
+			{
+				manager.Remove(tar);
+			}
 			break;
 		}
 		case 3:
 		{
-			//call void:find2print(), find2print() will prompt user for model, find and print car
+			string model;
+			cin.ignore();
+			getline(cin, model);
+			Car* t = hst.find(model);
+			if (checkIsNull(t))
+			{
+				cout << *t << endl;
+			}
 			break;
 		}
 		case 4:
@@ -91,7 +111,7 @@ int main()
 		}
 		case 5:
 		{
-			list.print(0);
+			list.print();
 			break;
 		}
 		case 6:
@@ -101,7 +121,14 @@ int main()
 		}
 		case 7:
 		{
-			//eff
+			cout << "AVL efficiency data:" << endl;
+			bstree.GetPerformance();
+			cout << endl;
+			cout << "HashTable efficiency data:" << endl;
+			hst.printEfficiencyData();
+			cout << endl;
+			cout << "LinkedList efficiency data:" << endl;
+			list.printEfficiency();
 			break;
 		}
 		case 8:
@@ -114,26 +141,38 @@ int main()
 		}
 		case 9:
 		{
-			//call void:carsByPower(), carsByPower() will promp user for min horsepower, print cars higher than that
+			int hp;
+			cout << "Please enter a integer to get all cars have higher horse power" << endl;
+			cin >> hp;
+			list.findByHp(hp);
 			break;
 		}
 		case 10:
 		{
-			//prompt model name;
-			updateInv();
+			updateInv(hst);
 			break;
 		}
 		case 0:
 		{
-			cout<<"Please input output file name"<<endl;
-			string t;
-			cin>>t;
-			if(!list.saveToFile(t))
-				cout<<"Save to file failed"<<endl;
-			cout<<"Saving complete"<<endl;
-			break;
+			bool f;
+			cout << "Do you want to save current data to file?(1=yes/0=no)" << endl;
+			cin >> f;
+			if (f)
+			{
+				cout << "Please input output file name" << endl;
+				string t;
+				cin >> t;
+				if (!list.saveToFile(t))
+					cout << "Save to file failed" << endl;
+				cout << "Saving complete" << endl;
+			}
+			exitThisTime = true;
 		}
+		
 	}
+	if (exitThisTime)
+		break;
+	exitThisTime = false;
 	#ifdef _WIN32
 	system("pause");
 	system("cls");
@@ -147,5 +186,5 @@ int main()
 	prompt();
 	}
 	
-	cout << "Thank you for using CarsRecord Program." << endl;	
+	cout << "Thank you for using CarsRecord Program." << endl;
 }

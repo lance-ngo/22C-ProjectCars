@@ -21,11 +21,10 @@ public:
 		data[curInd++] = x;
 		hshmap->insert(*x);
 		bst->Insert(x);
-		lst->insert(*x);
+		lst->insertByHp(*x);
 	}
-	void Remove(std::string value)
+	void Remove(Car* tar)
 	{
-		Car* tar = Find(value);
 		bst->Remove(tar);
 		hshmap->remove(*tar);
 		lst->remove(*tar);

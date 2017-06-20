@@ -349,10 +349,11 @@ template <typename T>
 std::ostream& Hashtable<T>::printEfficiencyData(std::ostream &fout)
 {
 	fout << "Printing Hash Table efficiency data" << std::endl;
-	fout << "With " << dataCount << " items in the hash table, it took:" << std::endl << std::endl;
+	fout << "With " << dataCount << " items in the hash table, it took:" << std::endl;
 	fout << insertOperations << " operations for " << insertRequests << " insert calls" << std::endl;
 	fout << removeOperations << " operations for " << removeRequests << " remove calls" << std::endl;
 	fout << findOperations << " operations for " << findRequests << " find calls" << std::endl;
+	fout << "Load Factor is: "<< getLoadFactor()<<std::endl;
 	return fout;
 }
 

@@ -93,15 +93,12 @@ public:
 		return msrp - x.getMsrp();
 	}
 
-	void operator+(int x) {				//to easily add stock
+	void changeInv(int x) {				//to easily add stock
 		stock += x;
-	}
-
-	void operator-(int x) {				//to easily subtract stock
-		stock -= x;
 		if (stock < 0)
 			stock = 0;
 	}
+
 	Car& operator=(const Car x)
 	{
 		make = x.getMake();

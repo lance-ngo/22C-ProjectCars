@@ -21,6 +21,7 @@ public:
 	}
 	void Print()
 	{
-		std::cout << totOp << " " << opCount << " " << totOp * 1.0 / opCount<<std::endl;
+		std::cout <<"Total steps: "<< totOp << "\nTotal operations: "
+			<< opCount << "\nAverage steps per operation£º " << totOp * 1.0 / opCount<<std::endl;
 	}
 };
