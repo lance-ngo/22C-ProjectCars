@@ -17,9 +17,19 @@ void prompt()
 	cout << "7. Display efficiency for 3 ADTs" << endl;
 	cout << "8. Display cars within range of min and max price" << endl;//done
 	cout << "9. Display cars with minimum horsepower" << endl;
-	//cout << "10. Compare two cars by price" << endl;
-	cout << "11. Add/Subtract from car inventory by model" << endl;
+	cout << "10. Add/Subtract from car inventory by model" << endl;
 	cout << "0. Exit" << endl;
+}
+
+void updateInv(){
+	string model;
+	int change;
+	cout << "Please enter car model to update inventory (lower case)" << endl;
+	getline(cin, model);
+	cout << "Please enter int for change in inventory (negative int to subtract)" << endl;
+	cin >> change;
+	
+	
 }
 
 int main()
@@ -107,7 +117,8 @@ int main()
 		}
 		case 10:
 		{
-			//call void:comparePrice(), comparePrice() will propt user for 2 models, then user /operator to show price differ
+			//prompt model name;
+			updateInv();
 			break;
 		}
 		case 0:
