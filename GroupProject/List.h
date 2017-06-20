@@ -27,7 +27,7 @@ public:
 	bool remove(const T &dat);
 	bool removeByModel(const std::string &str);
 	bool saveToFile(std::string x);
-	std::ostream& print(std::ostream &fout = std::cout);
+	std::ostream& print(int minHp, std::ostream &fout = std::cout);
 	//friend std::ostream& operator<<(std::ostream& fout, const List<T>& L);
 	~List();
 };
@@ -134,12 +134,13 @@ Post:
 Return:
 */
 template <typename T>
-std::ostream& List<T>::print(std::ostream& fout)
+std::ostream& List<T>::print(int minHp,std::ostream& fout)
 {
 	Node<T>* temp = H.getFrontPtr();
 	while (temp != nullptr)
 	{
-		fout << temp->getData() << std::endl;
+		if(temp->getData().getHp()>=minHp)
+			fout << temp->getData() << std::endl;
 		temp = temp->getNext();
 	}
 	return fout;
@@ -212,7 +213,7 @@ bool List<T>::remove(const T &dat)
 		return false;
 	}
 
-	if (dat == temp1->getData())
+	if (dat.getHp() == temp1->getData().getHp())
 	{
 		H.setFrontPtr(temp1->getNext());
 		H.decrementCount();
@@ -222,7 +223,7 @@ bool List<T>::remove(const T &dat)
 
 	while (temp1 != nullptr)
 	{
-		if (temp1->getData() == dat)
+		if (temp1->getData().getHp() == dat.getHp())
 		{
 			H.decrementCount();
 			temp2->setNext(temp1->getNext());

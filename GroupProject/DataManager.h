@@ -26,13 +26,13 @@ public:
 	void Remove(std::string value)
 	{
 		Car* tar = Find(value);
-		bst.Remove(tar);
-		hshmap.remove(*tar);
-		lst.remove(*tar);
+		bst->Remove(tar);
+		hshmap->remove(*tar);
+		lst->remove(*tar);
 	}
 	Car* Find(std::string value)
 	{
-		return hshmap.find(value);
+		return hshmap->find(value);
 	}
 	void SetBST(BST* t)
 	{

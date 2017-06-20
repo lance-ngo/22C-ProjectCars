@@ -48,12 +48,23 @@ int main()
 	{
 		case 1:
 		{
+			string buffer, make, model, body, trans;
+			int msrp, hp, cap, stock;
+			cout<<"Please input the following data, seperated by one space."<<endl;
+			cout << setw(10) << left << "Make" << setw(16) << left << "Model" << setw(6) << right << "MSRP"
+				<< setw(5) << right << "HP" << "  " << setw(11) << left << "Body" << setw(6) << "Seats"
+				<< setw(8) << "Trans" << setw(5) << "Stock" << endl;
+			cin>>make>> model>> msrp>> hp>> stock>> body>> cap>> trans;
+			Car* tempCar = new Car(make, model, msrp, hp, stock, body, cap, trans);
+			manager.Add(tempCar);
 			//call bool:addRecord(), addRecord will prompt user for data fieds and return true if added
 			break;
 		}
 		case 2:
 		{
-			//call bool:deleteRecord(), deleteRecord will prompt user for model and return true if deleted
+			string t;
+			cin>>t;
+			
 			break;
 		}
 		case 3:
@@ -68,7 +79,7 @@ int main()
 		}
 		case 5:
 		{
-			//call void:printHashKey(), printHashKey() will loop through HT by key and print car
+			list.print(0);
 			break;
 		}
 		case 6:
@@ -78,7 +89,7 @@ int main()
 		}
 		case 7:
 		{
-			//call void:printEfficiency(), printEfficiency() will print efficiencies of all 3
+			//eff
 			break;
 		}
 		case 8:

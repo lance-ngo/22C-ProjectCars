@@ -97,7 +97,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& out, const Car& x) {		//print car details
 		out << std::setw(10) << std::left << x.make << std::setw(16) << std::left << x.model << std::setw(6) << std::right << x.msrp
 			<< std::setw(5) << std::right << x.hp << "  " << std::setw(11) << std::left << x.body << std::setw(5) << x.seats
-			<< std::setw(5) << x.trans << std::setw(5) << x.stock;
+			<< std::setw(8) << x.trans << std::setw(5) << x.stock;
 		return out;
 	}
 
@@ -107,7 +107,6 @@ public:
 		t=make+","+ model+","+std::to_string(msrp)+","+std::to_string(hp)+","+std::to_string(stock)+","+body+","+std::to_string(seats)+","+trans;
 		return t;
 	}
-
 };
 
 #endif
