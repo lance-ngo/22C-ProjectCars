@@ -24,10 +24,12 @@ void prompt()
 void updateInv(){
 	string model;
 	int change;
+	Car* temp;
 	cout << "Please enter car model to update inventory (lower case)" << endl;
 	getline(cin, model);
+	temp = 
 	cout << "Please enter int for change in inventory (negative int to subtract)" << endl;
-	cin >> change;
+	cin >> ch
 	
 	
 }
