@@ -10,8 +10,8 @@ class List
 {
 protected:
 	Headnode<T> H;
-	unsigned insertCount;
-	unsigned comparisonCount;
+	unsigned callCount;
+	unsigned operationCount;
 public:
 	List();
 	Headnode<T>& getHeadnode();
@@ -24,16 +24,19 @@ public:
 	bool isEmpty() const;
 	void insert(T &dat);
 	void insertByHp(T &t);
+	bool removeByHp(const T &dat);
 	bool remove(const T &dat);
-	bool removeByModel(const std::string &str);
-	std::ostream& print(std::ostream &fout = cout);
+	bool removeByModel(const std::string &dat);
+	bool saveToFile(std::string x);
+	std::ostream& print(std::ostream &fout = std::cout);
+	void printEfficiency(std::ostream& fout = std::cout) const;
 	//friend std::ostream& operator<<(std::ostream& fout, const List<T>& L);
 	~List();
 };
 
 // PARTIALLY INCOMPLETE
 template <typename T>
-List<T>::List() : H()
+List<T>::List() : H(), callCount(0), operationCount(0)
 {
 }
 
@@ -70,7 +73,7 @@ Return:
 template <typename T>
 void List<T>::printCount(std::ostream &fout) const
 {
-	fout << "The list has " << getCount() << " objects" << endl << endl;
+	fout << "The list has " << getCount() << " objects" << std::endl << std::endl;
 }
 
 /*
@@ -138,10 +141,25 @@ std::ostream& List<T>::print(std::ostream& fout)
 	Node<T>* temp = H.getFrontPtr();
 	while (temp != nullptr)
 	{
-		fout << temp->getData() << endl;
+		fout << temp->getData() << std::endl;
 		temp = temp->getNext();
 	}
 	return fout;
+}
+
+template <typename T>
+bool List<T>::saveToFile(std::string x)
+{
+	std::ofstream fout(x);
+	if (!fout)
+		return 0;
+	Node<T>* temp = H.getFrontPtr();
+	while (temp != nullptr)
+	{
+		fout << temp->getData().toCsv() << std::endl;
+		temp = temp->getNext();
+	}
+	return 1;
 }
 
 //template <typename T>
@@ -186,35 +204,35 @@ Post:
 Return: true/false depending on if the operation is successful
 */
 template<typename T>
-bool List<T>::remove(const T &dat)
+bool List<T>::removeByHp(const T &dat)
 {
+	callCount++;
 	Node<T>* temp1 = H.getFrontPtr();
 	Node<T>* temp2 = 0;
 
 	if (H.getFrontPtr() == nullptr)
 	{
-		//fout << "List is empty" << endl << endl;
+		operationCount++;
 		return false;
 	}
 
 	if (dat == temp1->getData())
 	{
 		H.setFrontPtr(temp1->getNext());
-		//if (temp1->getNext() == nullptr)
-			//H.setRearPtr(nullptr);
 		H.decrementCount();
 		delete temp1;
+		operationCount++;
 		return true;
 	}
 
-	while (temp1 != nullptr)
+	while (temp1 != nullptr && temp1->getData().getHp() <= dat.getHp())
 	{
-		if (temp1->getData() == dat)
+		operationCount++;
+		if (temp1->getData().getHp() == dat.getHp())
 		{
+			operationCount++;
 			H.decrementCount();
 			temp2->setNext(temp1->getNext());
-			//if (temp1->getNext() == nullptr)
-				//H.setRearPtr(temp2);
 			delete temp1;
 			return true;
 		}
@@ -222,97 +240,44 @@ bool List<T>::remove(const T &dat)
 		temp1 = temp1->getNext();
 	}
 
-	//fout << "Value not found" << endl << endl;
+	operationCount++;
 	return false;
 }
 
 template<typename T>
-bool List<T>::removeByModel(const std::string &str)
+bool List<T>::removeByModel(const std::string &dat)
 {
 	Node<T>* temp1 = H.getFrontPtr();
 	Node<T>* temp2 = 0;
 
 	if (H.getFrontPtr() == nullptr)
 	{
-		//fout << "List is empty" << endl << endl;
 		return false;
 	}
 
-	if (str == temp1->getData().getModel())
+	if (dat == temp1->getData().getModel())
 	{
 		H.setFrontPtr(temp1->getNext());
-		//if (temp1->getNext() == nullptr)
-			//H.setRearPtr(nullptr);
 		H.decrementCount();
 		delete temp1;
 		return true;
 	}
 
-	while (temp1 != nullptr)
+	while (temp1 != nullptr && temp1->getData().getModel() <= dat)
 	{
-		if (temp1->getData().getModel() == str)
+		if (temp1->getData().getModel() == dat)
 		{
 			H.decrementCount();
 			temp2->setNext(temp1->getNext());
-			//if (temp1->getNext() == nullptr)
-				//H.setRearPtr(temp2);
 			delete temp1;
 			return true;
 		}
 		temp2 = temp1;
 		temp1 = temp1->getNext();
 	}
-	//fout << "Value not found" << endl << endl;
+
 	return false;
 }
-
-///*
-//Remove a Node holding the specified value from the list if it exists.
-//Pre: t - value to be removed
-//fout - stream to print appropriate message to
-//Post:
-//Return: true/false depending on if the operation is successful
-//*/
-//template<typename T>
-//bool List<T>::removeByHp(const T &dat)
-//{
-//	Node<T>* temp1 = H.getFrontPtr();
-//	Node<T>* temp2 = 0;
-//
-//	if (H.getFrontPtr() == nullptr)
-//	{
-//		//fout << "List is empty" << endl << endl;
-//		return false;
-//	}
-//
-//	if (dat == temp1->getData())
-//	{
-//		H.setFrontPtr(temp1->getNext());
-//		//if (temp1->getNext() == nullptr)
-//			//H.setRearPtr(nullptr);
-//		H.decrementCount();
-//		delete temp1;
-//		return true;
-//	}
-//
-//	while (temp1 != nullptr)
-//	{
-//		if (temp1->getData() == dat)
-//		{
-//			H.decrementCount();
-//			temp2->setNext(temp1->getNext());
-//			//if (temp1->getNext() == nullptr)
-//				//H.setRearPtr(temp2);
-//			delete temp1;
-//			return true;
-//		}
-//		temp2 = temp1;
-//		temp1 = temp1->getNext();
-//	}
-//
-//	//fout << "Value not found" << endl << endl;
-//	return false;
-//}
 
 /*
 Inserts a specified value to a specified position in the list
@@ -331,43 +296,31 @@ void List<T>::insert(T& dat)
 	{
 		H.setFrontPtr(new Node<T>((dat), temp1));
 		H.incrementCount();
-		//H.setRearPtr(H.getFrontPtr());
-		insertCount++;
 		return;
 	}
 
 	if (dat <= temp1->getData())
 	{
-		comparisonCount++;
 		H.setFrontPtr(new Node<T>((dat), temp1));
 		H.incrementCount();
-		insertCount++;
 		return;
 	}
 
 	while (temp1->getData() < dat)
 	{
-		comparisonCount++;
 		temp2 = temp1;
 		temp1 = temp1->getNext();
 		if (temp1 == nullptr)
 		{
 			temp2->setNext(new Node<T>(dat, nullptr));
 			H.incrementCount();
-			//H.setRearPtr(temp2->getNext());
-			insertCount++;
 			return;
 		}
 	}
 
-	comparisonCount++;
 	temp2->setNext(new Node<T>((dat), temp1));
 	H.incrementCount();
 
-	//if (temp1 == nullptr)
-		//H.setRearPtr(temp2->getNext());
-
-	insertCount++;
 }
 
 /*
@@ -380,6 +333,7 @@ Return:
 template<typename T>
 void List<T>::insertByHp(T &t)
 {
+	callCount++;
 	Node<T>* temp1 = H.getFrontPtr();
 	Node<T>* temp2 = nullptr;
 
@@ -388,62 +342,101 @@ void List<T>::insertByHp(T &t)
 		H.setFrontPtr(new Node<T>(t, temp1));
 		H.incrementCount();
 		//H.setRearPtr(H.getFrontPtr());
-		insertCount++;
+		//callCount++;
+		operationCount++;
 		return;
 	}
 
 	if (t.getHp() <= temp1->getData().getHp())
-	{
-		comparisonCount++;
+	{	
 		H.setFrontPtr(new Node<T>(t, temp1));
 		H.incrementCount();
-		insertCount++;
+		//callCount++;
+		operationCount++;
 		return;
 	}
 
 	while (t.getHp() > temp1->getData().getHp())
 	{
-		comparisonCount++;
 		temp2 = temp1;
 		temp1 = temp1->getNext();
+		operationCount++;
 		if (temp1 == nullptr)
 		{
 			temp2->setNext(new Node<T>(t, nullptr));
 			H.incrementCount();
-			//H.setRearPtr(temp2->getNext());
-			insertCount++;
+			//callCount++;
+			operationCount++;
 			return;
 		}
 	}
 
-	comparisonCount++;
+	operationCount++;
 	temp2->setNext(new Node<T>(t, temp1));
 	H.incrementCount();
 
-	//if (temp1 == nullptr)
-		//H.setRearPtr(temp2->getNext());
-
-	insertCount++;
 }
 
 template <typename T>
 void List<T>::findByHp(const int& hp, std::ostream& fout)
 {
+	callCount++;
 	Node<T>* temp1 = H.getFrontPtr();
-	fout << "Printing cars more than " << hp << " horsepower" << endl;
+	fout << "Printing cars more than " << hp << " horsepower" << std::endl;
 	while (temp1 != nullptr)
 	{
+		operationCount++;
 		if (temp1->getData().getHp() >= hp)
 		{
+			operationCount++;
 			while (temp1 != nullptr)
 			{
-				fout << temp1->getData() << endl;
+				fout << temp1->getData() << std::endl;
 				temp1 = temp1->getNext();
 			}
 			return;
 		}
 		temp1 = temp1->getNext();
 	}
+	operationCount++;
+}
+
+template <typename T>
+void List<T>::printEfficiency(std::ostream& fout) const
+{
+	fout << "Printing efficiency for linked list: " << operationCount * 1.0/ callCount << endl;
+}
+
+template<typename T>
+bool List<T>::remove(const T &dat)
+{
+	Node<T>* temp1 = H.getFrontPtr();
+	Node<T>* temp2 = 0;
+
+	if (H.getFrontPtr() == nullptr)
+		return false;
+
+	if (dat == temp1->getData())
+	{
+		H.setFrontPtr(temp1->getNext());
+		H.decrementCount();
+		delete temp1;
+		return true;
+	}
+
+	while (temp1 != nullptr && temp1->getData() <= dat)
+	{
+		if (temp1->getData() == dat)
+		{
+			H.decrementCount();
+			temp2->setNext(temp1->getNext());
+			delete temp1;
+			return true;
+		}
+		temp2 = temp1;
+		temp1 = temp1->getNext();
+	}
+	return false;
 }
 
 #endif
