@@ -27,7 +27,7 @@ public:
 	{
 		bst->Remove(tar);
 		hshmap->remove(*tar);
-		lst->remove(*tar);
+		lst->removeByHp(*tar);
 	}
 	Car* Find(std::string value)
 	{
