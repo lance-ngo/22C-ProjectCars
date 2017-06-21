@@ -25,7 +25,7 @@ public:
 	void insert(T &dat);
 	void insertByHp(T &t);
 	bool removeByHp(const T &dat);
-	bool remove(const T &dat);
+	bool remove(std::string dat);
 	bool saveToFile(std::string x);
 	std::ostream& print(std::ostream &fout = std::cout);
 	void printEfficiency(std::ostream& fout = std::cout) const;
@@ -244,7 +244,7 @@ bool List<T>::removeByHp(const T &dat)
 }
 
 template<typename T>
-bool List<T>::remove(const T &dat)
+bool List<T>::remove(std::string dat)
 {
 	Node<T>* temp1 = H.getFrontPtr();
 	Node<T>* temp2 = 0;
@@ -254,7 +254,7 @@ bool List<T>::remove(const T &dat)
 		return false;
 	}
 
-	if (dat == temp1->getData())
+	if (dat == temp1->getData().getModel())
 	{
 		H.setFrontPtr(temp1->getNext());
 		H.decrementCount();
@@ -262,9 +262,9 @@ bool List<T>::remove(const T &dat)
 		return true;
 	}
 
-	while (temp1 != nullptr && temp1->getData() <= dat)
+	while (temp1 != nullptr && temp1->getData().getModel() <= dat)
 	{
-		if (temp1->getData() == dat)
+		if (temp1->getData().getModel() == dat)
 		{
 			H.decrementCount();
 			temp2->setNext(temp1->getNext());
