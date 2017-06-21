@@ -51,6 +51,7 @@ void updateInv(Hashtable<Car> &hst){
 
 int main()
 {
+	const string filename="carinv.txt";
 	BST bstree;
 	Hashtable<Car> hst;
 	List<Car> list;
@@ -58,7 +59,8 @@ int main()
 	manager.SetBST(&bstree);
 	manager.SetList(&list);
 	manager.SetHashTable(&hst);
-	manager.ReadFile("carinv.txt");
+	manager.ReadFile(filename);
+	bstree.ClearPerformance();
 
 	int choice;
 	bool exitThisTime = false;
@@ -71,11 +73,27 @@ int main()
 		{
 			string buffer, make, model, body, trans;
 			int msrp, hp, cap, stock;
-			cout<<"Please input the following data, seperated by one space."<<endl;
-			cout << setw(10) << left << "Make" << setw(16) << left << "Model" << setw(6) << right << "MSRP"
-				<< setw(5) << right << "HP" << "  " << setw(11) << left << "Body" << setw(6) << "Seats"
-				<< setw(8) << "Trans" << setw(5) << "Stock" << endl;
-			cin>>make>> model>> msrp>> hp>> stock>> body>> cap>> trans;
+			cout << "Please input the following data, one per line, all in lower case." << endl;
+			cout << "Make: ";
+			cin.ignore();
+			getline(cin, make);
+			cout << "Model: ";
+			//cin.ignore();
+			getline(cin, model);
+			cout << "MSRP: ";
+			cin >> msrp;
+			cout << "HP: ";
+			cin >> hp;
+			cout << "Body: ";
+			cin.ignore();
+			getline(cin, body);
+			cout << "Seats: ";
+			cin >> cap;
+			cout << "Trans(manual/auto): ";
+			cin.ignore();
+			getline(cin, trans);
+			cout << "Stock: ";
+			cin >> stock;
 			Car* tempCar = new Car(make, model, msrp, hp, stock, body, cap, trans);
 			manager.Add(tempCar);
 			break;
@@ -154,18 +172,9 @@ int main()
 		}
 		case 0:
 		{
-			bool f;
-			cout << "Do you want to save current data to file?(1=yes/0=no)" << endl;
-			cin >> f;
-			if (f)
-			{
-				cout << "Please input output file name" << endl;
-				string t;
-				cin >> t;
-				if (!list.saveToFile(t))
-					cout << "Save to file failed" << endl;
-				cout << "Saving complete" << endl;
-			}
+			if (!list.saveToFile(filename))
+				cout << "Save to file failed" << endl;
+			cout << "Saving complete" << endl;
 			exitThisTime = true;
 		}
 		

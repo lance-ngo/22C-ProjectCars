@@ -6,7 +6,7 @@
 class DataManager
 {
 private:
-	Car* data[100];
+	Car* data[1000];
 	int curInd;
 	Hashtable<Car>* hshmap;
 	BST* bst;
@@ -80,6 +80,7 @@ public:
 			Car* tempCar = new Car(make, model, msrp, hp, stock, body, cap, trans);
 			Add(tempCar);
 		}
+		carsIn.close();
 	}
 	~DataManager()
 	{

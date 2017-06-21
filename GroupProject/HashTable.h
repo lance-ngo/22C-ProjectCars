@@ -294,7 +294,7 @@ int Hashtable<T>::getCollisions() const
 template <typename T>
 std::ostream& Hashtable<T>::printEfficiencyData(std::ostream &fout)
 {
-	fout << "Printing Hash Table efficiency data" << std::endl;
+	//fout << "Printing Hash Table efficiency data" << std::endl;
 	fout << "Current Load Factor: " << getLoadFactor() << std::endl;
 	fout << "Average size of linked list: " << getNonZeroAverageSize() << std::endl;
 	fout << "Longest linked list in hash table: " << getLongestListSize() << std::endl;
