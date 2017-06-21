@@ -25,7 +25,8 @@ public:
 	void insert(T &dat);
 	void insertByHp(T &t);
 	bool removeByHp(const T &dat);
-	bool remove(std::string dat);
+	bool remove(const T &dat);
+	bool removeByModel(const std::string &dat);
 	bool saveToFile(std::string x);
 	std::ostream& print(std::ostream &fout = std::cout);
 	void printEfficiency(std::ostream& fout = std::cout) const;
@@ -244,7 +245,7 @@ bool List<T>::removeByHp(const T &dat)
 }
 
 template<typename T>
-bool List<T>::remove(std::string dat)
+bool List<T>::removeByModel(const std::string &dat)
 {
 	Node<T>* temp1 = H.getFrontPtr();
 	Node<T>* temp2 = 0;
@@ -295,42 +296,31 @@ void List<T>::insert(T& dat)
 	{
 		H.setFrontPtr(new Node<T>((dat), temp1));
 		H.incrementCount();
-		//insertCount++;
 		return;
 	}
 
-	if (dat.getHp() <= temp1->getData().getHp())
+	if (dat <= temp1->getData())
 	{
-		//comparisonCount++;
 		H.setFrontPtr(new Node<T>((dat), temp1));
 		H.incrementCount();
-		//insertCount++;
 		return;
 	}
 
-	while (temp1->getData().getHp() < dat.getHp())
+	while (temp1->getData() < dat)
 	{
-		//comparisonCount++;
 		temp2 = temp1;
 		temp1 = temp1->getNext();
 		if (temp1 == nullptr)
 		{
 			temp2->setNext(new Node<T>(dat, nullptr));
 			H.incrementCount();
-			//H.setRearPtr(temp2->getNext());
-			//insertCount++;
 			return;
 		}
 	}
 
-	//comparisonCount++;
 	temp2->setNext(new Node<T>((dat), temp1));
 	H.incrementCount();
 
-	//if (temp1 == nullptr)
-	//H.setRearPtr(temp2->getNext());
-
-	//insertCount++;
 }
 
 /*
@@ -415,6 +405,38 @@ template <typename T>
 void List<T>::printEfficiency(std::ostream& fout) const
 {
 	fout << "Printing efficiency for linked list: " << operationCount * 1.0/ callCount << endl;
+}
+
+template<typename T>
+bool List<T>::remove(const T &dat)
+{
+	Node<T>* temp1 = H.getFrontPtr();
+	Node<T>* temp2 = 0;
+
+	if (H.getFrontPtr() == nullptr)
+		return false;
+
+	if (dat == temp1->getData())
+	{
+		H.setFrontPtr(temp1->getNext());
+		H.decrementCount();
+		delete temp1;
+		return true;
+	}
+
+	while (temp1 != nullptr && temp1->getData() <= dat)
+	{
+		if (temp1->getData() == dat)
+		{
+			H.decrementCount();
+			temp2->setNext(temp1->getNext());
+			delete temp1;
+			return true;
+		}
+		temp2 = temp1;
+		temp1 = temp1->getNext();
+	}
+	return false;
 }
 
 #endif
