@@ -30,7 +30,6 @@ public:
 	bool saveToFile(std::string x);
 	std::ostream& print(std::ostream &fout = std::cout);
 	void printEfficiency(std::ostream& fout = std::cout) const;
-	//friend std::ostream& operator<<(std::ostream& fout, const List<T>& L);
 	~List();
 };
 
