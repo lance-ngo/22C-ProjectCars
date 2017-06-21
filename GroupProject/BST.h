@@ -41,29 +41,6 @@ protected:
 		
 		delete x;
 	}
-	/*void print_tree(TreeNode* x, int depth,int d, std::ostream &bstout)
-	{
-		for(int i=1;i<depth;i++)
-		{
-			bstout <<"|"<< std::string(indent, ' ');
-		}
-		
-		if(d!=-1)
-		bstout <<"|";
-		if(d==0)
-			bstout<<"L"<< std::string(indent-1, ' ');
-		else if(d==1)
-			bstout<<"R"<< std::string(indent-1, ' ');
-
-		if(x==nullptr)
-		{
-			bstout<<"null"<< std::endl;
-			return;
-		}
-		bstout<<"("<<x->GetData().getModel()<<", "<< x->GetData().getMsrp()*1.0/1000 <<"k)"<< std::endl;
-		print_tree(x->GetLeft(),depth+1,0,bstout);
-		print_tree(x->GetRight(),depth+1,1,bstout);
-	}*/
 	void print_range_tree(TreeNode *x,int l, int r, std::ostream &bstout)
 	{
 		if(x->GetData().getMsrp()>=l && x->GetData().getMsrp()<=r)
@@ -209,7 +186,5 @@ public:
 	{
 		clear(root);
 	}
-	// use string and not stringbuffer on purpose as we need to change the indent at each recursion
-	
 };
 #endif

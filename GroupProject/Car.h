@@ -122,7 +122,7 @@ public:
 	std::string toCsv()
 	{
 		std::string t="";
-		t=make+","+ model+","+std::to_string(msrp)+","+std::to_string(hp)+","+std::to_string(stock)+","+body+","+std::to_string(seats)+","+trans;
+		t=make+","+ model+","+std::to_string(msrp)+","+std::to_string(hp)+","+body+","+std::to_string(seats)+","+trans+ "," + std::to_string(stock);
 		return t;
 	}
 };
